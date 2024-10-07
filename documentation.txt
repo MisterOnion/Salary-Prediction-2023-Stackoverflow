@@ -1,0 +1,97 @@
+A deployable ML model on Webapp for practice
+
+Download Dataset from ( https://survey.stackoverflow.co/ )
+
+Make an Environment for the project
+
+	1. install Anaconda
+	- Website download ( https://docs.anaconda.com/anaconda/install/windows/ )
+	- Go to Anaconda(64 bit) folder
+	- Select Anaconda Prompt
+	- conda init powershell (make env on VSCODE)
+	
+	What to type in command
+	conda create -n ml_prac python=3.10
+	conda activate ml_prac
+	conda install pandas
+	conda install matplotlib
+	conda install scikit-learn
+	ipython kernel install --user --name=ml_prac (make a kernel)
+
+	jupyter notebook on local machine:
+	conda install jupyter
+	Select kernel on jupyter notebook in vscode (top right)
+	Select jupyter kernel
+	Select env name
+
+	Jupyter notebook on web:
+	Type jupyter notebook in command
+	
+	Optional: Find tutorials on vscode own env setup
+	$py -3 -m venv ml_prac
+	$venv\Scripts\activate
+
+Run ML app with streamlit (localhost)
+	1. type in command
+		- conda activate ml_prac 
+		- streamlit run app.py (pip install streamlit)
+		- ctrl + c to stop the server
+
+Deploy using Streamlit
+	Prerequitsite: Download git, have a Github account and a Streamlit Account 
+	We are hosting it on Streamlit Community Cloud
+
+	- Connect Github account to Streamlit account
+	- Upload your code onto Github
+	- Add a requirement.txt file (pickle is part of python)
+	- Select project from Github to host
+
+Deploy using Docker Container
+	Install Docker Desktop beforehand (free for personal use)
+	https://docs.docker.com/desktop/install/windows-install/
+
+	Build speed may be longer, it depends on internet speed, computer specs
+	and project size
+
+	When building, some packages will not be available for docker such as pickle,
+	this is prevalent in .yml from anaconda environment. Only use everyday packages like
+	numpy, pandas, and matplotlib
+
+	if failed in anyway when deploying, rebuilt it after reading the error
+
+	ls = list files to make sure Dockerfile there
+
+
+	Anaconda:
+		use .yml extension = human-readable data serialization language that is often used for writing configuration files
+		- conda activate ml_prac
+		- conda install -c conda-forge streamlit
+		- conda env export --name ml_prac > environment.yml (or other names)
+		- Create docker folder (auto-detected by vscode)
+		- Create Dockerfile (auto-detected by vscode)
+		- Relocate environment.yml (or other names) into docker folder
+		- Customize Dockerfile to suit .yml 
+		- cd docker in cmd
+		- docker build -t AnyNameForIt .
+
+	pyenv:
+		use text.file format
+		- Create docker folder (auto-detected by vscode)
+		- create Dockerfile (auto-detected by vscode)
+		- create txt naming convention "requirements.txt" 
+		- type in required libraries such as numpy and streamlit
+		- relocate "requirements.txt" into Dockerfile folder
+		- cd docker
+		- docker build -t AnyNameForIt . 
+		or 
+		- docker build -t AnyNameForIt:latest -f docker/Dockerfile .
+
+Running deployeed docker Container:
+	docker run -p 8501:80 YourMLContainerName
+	or 
+	0.0.0.0: 0.0
+	
+
+Resources:
+https://www.youtube.com/watch?v=xl0N7tHiwlw
+https://towardsdatascience.com/create-an-awesome-streamlit-app-deploy-it-with-docker-a3d202a636e8
